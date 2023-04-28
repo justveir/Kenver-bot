@@ -3,9 +3,8 @@ from aiogram.filters import Command, StateFilter
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from aiogram.filters.state import State, StatesGroup
-import requests
+import requests, logging
 from config import token, WEATHER_API_KEY
-import logging
 from pprint import pprint
 
 API_TOKEN: str = token
@@ -35,7 +34,7 @@ logger()
 
 @dp.message(Command(commands=["start"]))
 async def process_start_command(message: Message):
-    await message.answer('Привет!\nЯ многофункциональный бот\nНапиши комманду /commands, чтобы узнать, что я умею')
+    await message.answer('Привет!\nЯ многофункциональный бот\nНапиши комманду /commands, чтобы узнать, что я умею.')
 
 
 @dp.message(Command(commands=["commands"]))
@@ -71,8 +70,8 @@ async def get_weather(message: Message, state: FSMContext):
               )
 
     except:
-        await message.reply("Неверное название города! Проверьте правильность написания города")
-        logger.exception("Произошла ошибка")
+        await message.reply("Неверное название города! Проверьте правильность написания города.")
+        logger.exception("Произошла неизвестная ошибка!")
         pprint(data)
 
     await state.clear()
