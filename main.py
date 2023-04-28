@@ -1,10 +1,10 @@
+from config_data.config import token, WEATHER_API_KEY
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command, StateFilter
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from aiogram.filters.state import State, StatesGroup
 import requests
-from config import token, WEATHER_API_KEY
 import logging
 from pprint import pprint
 
