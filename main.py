@@ -1,11 +1,12 @@
 from config_data.config import token, WEATHER_API_KEY
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command, StateFilter
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from aiogram.filters.state import State, StatesGroup
+from aiogram.enums.dice_emoji import DiceEmoji
 import requests, logging
-from config import token, WEATHER_API_KEY
+from config_data.config import token, WEATHER_API_KEY
 from pprint import pprint
 
 API_TOKEN: str = token
@@ -39,7 +40,7 @@ async def process_start_command(message: Message):
 
 @dp.message(Command(commands=["commands"]))
 async def process_start_command(message: Message):
-    await message.answer('/weather - узнай погоду в своем городе')
+    await message.answer('/weather - узнай погоду в своем городе\n/dice - игральный кубик')
 
 @dp.message(Command(commands=["weather"]))
 async def process_start_command(message: Message, state: FSMContext):
@@ -75,6 +76,10 @@ async def get_weather(message: Message, state: FSMContext):
         pprint(data)
 
     await state.clear()
+
+@dp.message(Command(commands=["dice"]))
+async def cmd_dice(message: types.Message, bot: Bot):
+    await message.answer_dice(emoji=DiceEmoji.DICE)
 
 if __name__ == '__main__':
     dp.run_polling(bot)
