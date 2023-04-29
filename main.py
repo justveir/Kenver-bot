@@ -6,7 +6,6 @@ from aiogram.fsm.context import FSMContext
 from aiogram.filters.state import State, StatesGroup
 from aiogram.enums.dice_emoji import DiceEmoji
 import requests, logging
-from config_data.config import token, WEATHER_API_KEY
 from pprint import pprint
 
 API_TOKEN: str = token
