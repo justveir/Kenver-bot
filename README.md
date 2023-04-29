@@ -7,5 +7,8 @@ multifunctional bot written in python.
 
 /weather - check the weather in your city 
 
+
+/dice - playing cube
+
 # Installation 
 git clone https://github.com/justveir/Kenver-bot - clone this repository
