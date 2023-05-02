@@ -29,30 +29,31 @@ async def process_start_command(message: Message, state: FSMContext):
 
 @router.message(StateFilter(weather.City))
 async def get_weather(message: Message, state: FSMContext):
-
-
     try:
         city = message.text
-        r = requests.get(
-            f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={WEATHER_API_KEY}&units=metric"
-        )
-        data = r.json()
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={WEATHER_API_KEY}&units=metric"
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
 
         cur_weather = data["main"]["temp"]
-
-
-
         humidity = data["main"]["humidity"]
         wind = data["wind"]["speed"]
 
         await message.reply(
-              f"Погода в городе: {city}\n\nТемпература: {cur_weather}C°\n"
-              f"Влажность: {humidity}%\n\nВетер: {wind} м/с\n\n"
-              )
+            f"Погода в городе {city}:\n"
+            f"Температура: {cur_weather} °C\n"
+            f"Влажность: {humidity}%\n"
+            f"Скорость ветра: {wind} м/с\n"
+        )
 
+    except requests.exceptions.HTTPError as e:
+        if response.status_code == 401:
+            await message.reply("Недействительный API-ключ!")
+        else:
+            await message.reply(f"Ошибка {response.status_code} при запросе к API.")
     except:
-        await message.reply("Неверное название города! Проверьте правильность написания города.")
-
+        await message.reply("Произошла ошибка при запросе к API.")
 
     await state.clear()
 
